@@ -33,7 +33,6 @@ module "my_cluster" {
     {
       name                 = "worker-group-1"
       instance_type        = "t2.small"
-      instance_type        = var.worker_instance_type
       asg_desired_capacity = 1
       asg_max_size         = 1
     }
@@ -45,12 +44,41 @@ resource "kubernetes_persistent_volume_claim" "example" {
     name = "test-destroy-eks-auth"
   }
   spec {
-    access_modes = ["ReadWriteMany"]
+    access_modes = ["ReadWriteOnce"]
     resources {
       requests = {
         storage = "1Gi"
       }
     }
-    volume_name = "${kubernetes_persistent_volume.example.metadata.0.name}"
+  }
+  wait_until_bound = false
+}
+
+resource "kubernetes_job" "test" {
+  metadata {
+    name = "test"
+  }
+  spec {
+    template {
+      metadata {
+      }
+      spec {
+        container {
+          image = "hello-world"
+          name  = "hello"
+          volume_mount {
+            name       = "example"
+            mount_path = "/mnt"
+          }
+        }
+        restart_policy = "Never"
+        volume {
+          name = "example"
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim.example.metadata[0].name
+          }
+        }
+      }
+    }
   }
 }
