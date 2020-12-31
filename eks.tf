@@ -81,4 +81,8 @@ resource "kubernetes_job" "test" {
       }
     }
   }
+  provisioner "local-exec" {
+    when    = destroy
+    command = "sleep 90"
+  }
 }
