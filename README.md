@@ -8,3 +8,13 @@ Experiment with Terraform v0.13.5:
 
 - `terraform apply` success
 - `terraform destroy` success
+
+Experiment with Terraform v0.14.0:
+
+- `terraform apply`
+- `terraform destroy` success
+
+Experiment with Terraform v0.14.3:
+
+- `terraform apply` success
+- `terraform destroy` success
