@@ -19,4 +19,6 @@ Experiment with Terraform v0.14.3:
 - `terraform apply` success
 - `terraform destroy` success
 
-Same for commit 5bbd1d41f0f68cba07d774d86e6a7754a23750e3 + v0.14.3.
+More:
+
+1. Same for commit 5bbd1d41f0f68cba07d774d86e6a7754a23750e3 + v0.14.3

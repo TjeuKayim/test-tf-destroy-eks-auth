@@ -23,6 +23,7 @@ provider "kubernetes" {
 
 module "my_cluster" {
   source          = "terraform-aws-modules/eks/aws"
+  version         = "13.1.0"
   cluster_name    = var.cluster_name
   cluster_version = "1.18"
   subnets         = data.aws_subnet_ids.all.ids
