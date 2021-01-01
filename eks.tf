@@ -39,50 +39,47 @@ module "my_cluster" {
   ]
 }
 
-resource "kubernetes_persistent_volume_claim" "example" {
+resource "kubernetes_deployment" "example" {
   metadata {
-    name = "test-destroy-eks-auth"
-  }
-  spec {
-    access_modes = ["ReadWriteOnce"]
-    resources {
-      requests = {
-        storage = "1Gi"
-      }
+    name = "example"
+    labels = {
+      app = "example"
     }
   }
-  wait_until_bound = false
-}
 
-resource "kubernetes_job" "test" {
-  metadata {
-    name = "test"
-  }
   spec {
+    replicas = 1
+
+    selector {
+      match_labels = {
+        app = "example"
+      }
+    }
+
     template {
       metadata {
+        labels = {
+          app = "example"
+        }
       }
+
       spec {
         container {
-          image = "hello-world"
-          name  = "hello"
-          volume_mount {
-            name       = "example"
-            mount_path = "/mnt"
-          }
-        }
-        restart_policy = "Never"
-        volume {
-          name = "example"
-          persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim.example.metadata[0].name
+          image = "caddy:latest"
+          name  = "example"
+
+          liveness_probe {
+            http_get {
+              path = "/health"
+              port = 80
+            }
+
+            initial_delay_seconds = 9
+            period_seconds        = 30
+            timeout_seconds       = 9
           }
         }
       }
     }
-  }
-  provisioner "local-exec" {
-    when    = destroy
-    command = "sleep 90"
   }
 }
