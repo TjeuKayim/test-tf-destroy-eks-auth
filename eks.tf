@@ -37,6 +37,10 @@ module "eks" {
       asg_max_size         = 1
     }
   ]
+  workers_group_defaults = {
+    root_volume_type = "gp2"
+    root_volume_size = 30
+  }
 
   iam_path = var.iam_path
   workers_additional_policies = [
