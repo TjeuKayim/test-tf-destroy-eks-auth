@@ -3,5 +3,5 @@ variable "aws_region" {
 }
 
 variable "cluster_name" {
-  default = "test-eks-auth"
+  default = "foo-bar"
 }
