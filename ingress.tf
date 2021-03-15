@@ -54,7 +54,7 @@ resource "kubernetes_ingress" "lb" {
 
 resource "aws_iam_policy" "load_balancer" {
   name        = "AWSLoadBalancerController-${var.environment}"
-  path        = var.iam_prefix
+  path        = var.iam_path
   description = "AWS Load Balancer controller Helm chart for Kubernetes"
 
   // Source https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/main/docs/install/iam_policy.json

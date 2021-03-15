@@ -38,8 +38,10 @@ module "eks" {
     }
   ]
 
+  iam_path = var.iam_path
   workers_additional_policies = [
     // ALB Ingress
     aws_iam_policy.load_balancer.arn
   ]
+  permissions_boundary = var.iam_permissions_boundary_policy
 }
