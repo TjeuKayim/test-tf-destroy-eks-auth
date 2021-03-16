@@ -29,8 +29,10 @@ provider "helm" {
 }
 
 module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
-  version         = "14.0.0"
+  # source          = "terraform-aws-modules/eks/aws"
+  # version         = "14.0.0"
+  # TODO: Wait for https://github.com/terraform-aws-modules/terraform-aws-eks/pull/1165 to be merged
+  source          = "github.com/TjeuKayim/terraform-aws-eks"
   cluster_name    = "${var.cluster_name}-${var.environment}"
   cluster_version = "1.18"
   subnets         = data.aws_subnet_ids.all.ids
