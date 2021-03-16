@@ -29,6 +29,13 @@ resource "kubernetes_ingress" "lb" {
       "alb.ingress.kubernetes.io/group.name"  = "lb"
       "alb.ingress.kubernetes.io/target-type" = "ip"
       "alb.ingress.kubernetes.io/scheme"      = "internal"
+      // Enable HTTP/2 (only works with HTTPS)
+      "alb.ingress.kubernetes.io/backend-protocol"         = "HTTPS"
+      "alb.ingress.kubernetes.io/backend-protocol-version" = "HTTP2"
+      // Listen to HTTPS port
+      "alb.ingress.kubernetes.io/listen-ports" = "[{\"HTTPS\":443}]"
+      // Longer idle timeout for long-polling
+      "alb.ingress.kubernetes.io/load-balancer-attributes" = "idle_timeout.timeout_seconds=4000"
       // Static home page
       "alb.ingress.kubernetes.io/actions.default" = jsonencode(
         {
@@ -45,6 +52,9 @@ resource "kubernetes_ingress" "lb" {
     }
   }
   spec {
+    tls {
+      hosts = [var.hostname]
+    }
     backend {
       service_name = "default"
       service_port = "use-annotation"

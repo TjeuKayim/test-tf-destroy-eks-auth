@@ -19,3 +19,8 @@ variable "iam_permissions_boundary_policy" {
   description = "ARN of policy to use as a permissions boundary for roles managed by Terraform"
   type        = string
 }
+
+variable "hostname" {
+  description = "DNS hostname, like `abc.example.com`"
+  type        = string
+}
